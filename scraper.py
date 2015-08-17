@@ -61,7 +61,7 @@ def convert_mth_strings ( mth_string ):
 # pull down the content from the webpage
 
 html = urllib2.urlopen(url)
-soup = BeautifulSoup(html)
+soup = BeautifulSoup(html, "lxml")
 # find all entries with the required class
 block = soup.find('div', attrs = {'class':'download_box'})
 links = block.findAll('a', href=True)
