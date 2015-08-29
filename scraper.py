@@ -61,7 +61,7 @@ def convert_mth_strings ( mth_string ):
 # pull down the content from the webpage
 
 html = urllib2.urlopen(url)
-soup = BeautifulSoup(html, "lxml")
+soup = BeautifulSoup(html, 'lxml')
 # find all entries with the required class
 block = soup.find('div', attrs = {'class':'download_box'})
 links = block.findAll('a', href=True)
@@ -70,6 +70,16 @@ for link in links:
     csvfile = link.text.strip()
     if 'CSV' in csvfile:
         csvMth = csvfile.split(' ')[0][:3].strip()
+        entity_id = "E0701_HBC_gov"
+        if 'Q' in csvMth:
+            entity_id = 'Q'+entity_id
+        else:
+            entity_id = entity_id
+
+        if 'Q1' in csvMth:
+            csvMth = 'Mar'
+        if 'Q2' in csvMth:
+            csvMth = 'Jun'
         if 'Q3' in csvMth:
             csvMth = 'Sep'
         if 'Q4' in csvMth:
@@ -78,10 +88,7 @@ for link in links:
         if 'to' in csvYr:
             csvYr = csvfile.split(' ')[3].strip()
         if '/' in csvYr:
-            csvYr = csvfile.split(' ')[3].strip().split('/')[0]
-        if 'Information' in csvYr:
-            csvYr = '2014'
-
+            csvYr = csvfile.split(' ')[1].strip().split('/')[0]
         csvMth = convert_mth_strings(csvMth.upper())
         filename = entity_id + "_" + csvYr + "_" + csvMth
         todays_date = str(datetime.now())
