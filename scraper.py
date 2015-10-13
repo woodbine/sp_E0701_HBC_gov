@@ -114,8 +114,9 @@ for link in links:
         if 'Q4' in csvMth:
             csvMth = 'Q4'
         csvYr = csvfile.split(' ')[1].strip()
-        if 'to' in csvYr:
+        if 'to' in csvYr and 'December 2010' in csvfile:
             csvYr = csvfile.split(' ')[3].strip()
+            csvMth = 'Q0'
         if '/' in csvYr:
             csvYr = csvfile.split(' ')[1].strip().split('/')[0]
         csvMth = convert_mth_strings(csvMth.upper())
