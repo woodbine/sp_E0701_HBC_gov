@@ -1,4 +1,4 @@
- #-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 
 #### IMPORTS 1.0
 import os
@@ -85,7 +85,7 @@ def convert_mth_strings ( mth_string ):
 #### VARIABLES 1.0
 
 entity_id = "E0701_HBC_gov"
-url = "http://www.hartlepool.gov.uk/downloads/download/2148/council_expenditure"
+url = "https://www.hartlepool.gov.uk/downloads/download/262/council_expenditure"
 errors = 0
 data = []
 
@@ -98,12 +98,12 @@ soup = BeautifulSoup(html, "lxml")
 
 #### SCRAPE DATA
 
-block = soup.find('div', attrs = {'class':'download_box'})
-links = block.findAll('a', href=True)
+links = soup.find('ul', 'item-list item-list__rich').find_all('h3')
 for link in links:
-    url = link['href'].replace('downloads/file', 'download')
+
+    url = link.find('a')['href'].replace('/downloads/file/', '/download/downloads/id/')
     csvfile = link.text.strip()
-    if 'CSV' in csvfile:
+    if 'Excel' in csvfile:
         csvMth = csvfile.split(' ')[0][:3].strip()
         if 'Q1' in csvMth:
             csvMth = 'Q1'
@@ -119,6 +119,8 @@ for link in links:
             csvMth = 'Q0'
         if '/' in csvYr:
             csvYr = csvfile.split(' ')[1].strip().split('/')[0]
+        if '13' in csvYr:
+            csvYr = '2013'
         csvMth = convert_mth_strings(csvMth.upper())
         data.append([csvYr, csvMth, url])
 
@@ -144,4 +146,3 @@ if errors > 0:
 
 
 #### EOF
-
