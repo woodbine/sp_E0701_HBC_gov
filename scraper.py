@@ -121,6 +121,8 @@ for link in links:
             csvYr = csvfile.split(' ')[1].strip().split('/')[0]
         if '13' in csvYr:
             csvYr = '2013'
+        if '2017-2018' in csvYr:
+            csvYr = '2017'
         csvMth = convert_mth_strings(csvMth.upper())
         data.append([csvYr, csvMth, url])
 
